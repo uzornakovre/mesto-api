@@ -54,6 +54,10 @@ function submitAddForm(data) {
   cardLoader.close();
 }
 
+function submitDeleteCard() {
+
+}
+
 profileEditor.setEventListeners();
 cardLoader.setEventListeners();
 imageViewer.setEventListeners();

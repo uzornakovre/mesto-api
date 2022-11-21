@@ -3,6 +3,7 @@
 export const popupEdit = document.querySelector('.popup_type_edit-profile');
 export const popupPlace = document.querySelector('.popup_type_new-place');
 export const popupImageViewer = document.querySelector('.popup_type_image');
+export const popupDeleteCard = document.querySelector('.popup_type_delete-card');
 
 export const buttonEdit = document.querySelector('.profile__button-edit');
 export const buttonAdd = document.querySelector('.profile__button-add');

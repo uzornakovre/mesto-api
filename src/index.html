@@ -11,7 +11,9 @@
   </header>
   <main class="content">
     <section class="profile">
-      <img class="profile__avatar" src="<%=require('./images/profile__avatar.png')%>" alt="Аватар">
+      <div class="profile__avatar-container">
+        <img class="profile__avatar" src="<%=require('./images/profile__avatar.png')%>" alt="Аватар">
+      </div>
       <div class="profile__info">
         <h1 class="profile__name">Жак-Ив Кусто</h1>
         <button class="profile__button-edit" type="button"></button>
@@ -64,6 +66,17 @@
       </form>
     </div>
   </div>
+  <div class="popup popup_type_avatar popup_opened">
+    <div class="popup__container popup__container_type_avatar">
+      <button class="popup__close" id="close-avatar" type="button"></button>
+      <form class="popup__form" name="change-avatar" id="avatar" novalidate>
+        <h2 class="popup__form-title">Обновить аватар</h2>
+        <input type="url" class="popup__form-input popup__form-input_content_avatar" id="url" name="avatar-url" placeholder="Ссылка на аватар" value="" required>
+        <span class="popup__form-input-error popup__form-input-error_content_url"></span>
+        <button type="submit" class="popup__form-submit popup__form-submit_place_avatar" name="change_avatar">Сохранить</button>
+      </form>
+    </div>
+  </div>
   <div class="popup popup_type_image">
     <div class="popup__container popup__container_type_image">
       <button class="popup__close" id="close-image" type="button"></button>
@@ -71,6 +84,15 @@
         <img class="popup__image" src="#" alt="">
         <figcaption class="popup__image-caption"></figcaption>
       </figure>
+    </div>
+  </div>
+  <div class="popup popup_type_delete-card">
+    <div class="popup__container popup__container_type_delete-card">
+      <button class="popup__close" id="close-delete" type="button"></button>
+      <form class="popup__form" name="dalete-card" id="delete-card" novalidate>
+        <h2 class="popup__form-title popup__form-title_place_delete-card">Вы уверены?</h2>
+        <button type="submit" class="popup__form-submit" name="delete-card" id="comfirm-delete">Да</button>
+      </form>
     </div>
   </div>
 </body>

@@ -5,6 +5,7 @@
 @import url('../blocks/content/content.css');
 @import url('../blocks/header/__logo/header__logo.css');
 @import url('../blocks/profile/profile.css');
+@import url('../blocks/profile/__avatar-container/profile__avatar-container.css');
 @import url('../blocks/profile/__avatar/profile__avatar.css');
 @import url('../blocks/profile/__info/profile__info.css');
 @import url('../blocks/profile/__name/profile__name.css');
@@ -31,10 +32,12 @@
 @import url('../blocks/popup/__container/_opened/popup__container_opened.css');
 @import url('../blocks/popup/__container/_type/popup__container_type_image.css');
 @import url('../blocks/popup/__form-title/popup__form-title.css');
+@import url('../blocks/popup/__form-title/_place/popup__form-title_place_delete-card.css');
 @import url('../blocks/popup/__form-input/popup__form-input.css');
 @import url('../blocks/popup/__form-input/_error/popup__form-input_error.css');
 @import url('../blocks/popup/__form-input-error/popup__form-input-error.css');
 @import url('../blocks/popup/__form-submit/popup__form-submit.css');
+@import url('../blocks/popup/__form-submit/_place/popup__form-submit_place_avatar.css');
 @import url('../blocks/popup/__form-submit/_disabled/popup__form-submit_disabled.css');
 @import url('../blocks/popup/__image/popup__image.css');
 @import url('../blocks/popup/__image-wrapper/popup__image-wrapper.css');

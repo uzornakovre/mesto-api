@@ -1,3 +1,8 @@
+
+// import { popupDeleteCard } from "../utils/constants";
+// import PopupWithConfirmation from "./PopupWithConfirmation";
+// const cardRemover = new PopupWithConfirmation(popupDeleteCard);
+
 export class Card {
   constructor(item, templateSelector, handleCardClick) {
     this._templateSelector = templateSelector;
@@ -18,6 +23,8 @@ export class Card {
 
   _remove() {
     this._element.remove();
+    // cardRemover.open();
+    // cardRemover.setEventListeners();
   }
 
   _toggleLikeButton() {
@@ -47,4 +54,6 @@ export class Card {
     
     return this._element;
   }
+
+
 }
