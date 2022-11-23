@@ -5,6 +5,7 @@ import Section from '../components/Section.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import UserInfo from '../components/UserInfo.js';
+import Api from '../components/Api';
 
 import { popupEdit, 
          popupPlace, 
@@ -19,19 +20,27 @@ import { popupEdit,
          jobInput
         } from '../utils/constants.js';
 
+const api = new Api({
+  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-54',
+  headers: {
+    authorization: 'a67dcede-ed6f-4bc9-92bc-dd4c6eb33b08',
+    'Content-Type': 'application/json'
+  }
+}); 
+
 const imageViewer = new PopupWithImage(popupImageViewer);
 const profileEditor = new PopupWithForm(popupEdit, formEdit, submitEditForm);
 const cardLoader = new PopupWithForm(popupPlace, formAdd, submitAddForm);
 const userInfo = new UserInfo({
   name: profileName,
-  job: profileJob
+  about: profileJob
 });
 
 buttonEdit.addEventListener('click', () => {
   profileEditor.open();
   const userInfoCurrent = userInfo.getUserInfo();
   nameInput.value = userInfoCurrent.name,
-  jobInput.value = userInfoCurrent.job,
+  jobInput.value = userInfoCurrent.about,
   validatorEditProfile.resetValidation();
 });
 
@@ -40,8 +49,16 @@ buttonAdd.addEventListener('click', () => {
   validatorAddCard.resetValidation();
 });
 
-function submitEditForm(data) {
-  userInfo.setUserInfo(data);
+// Данные пользователя
+
+api.getUserInfo().then((userData) => {
+  userInfo.setUserInfo(userData);
+});
+
+function submitEditForm(userData) {
+  api.changeUserInfo(userData).then((userData) => {
+    userInfo.setUserInfo(userData);
+  });
   profileEditor.close();
 }
 
@@ -73,7 +90,11 @@ const card = new Section({
   }
 }, cardList);
 
-card.renderItems(initialCards);
+api.getInitialCards().then((cardsData) => {
+  const initialCards = cardsData;
+  card.renderItems(initialCards);
+  console.log(cardsData)
+})
 
 // Валидация
 

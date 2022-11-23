@@ -21,7 +21,7 @@ export default class PopupWithForm extends Popup {
   _getInputValues() {
     return {
       name:  nameInput.value,
-      job:   jobInput.value,
+      about:   jobInput.value,
       place: placeName.value,
       url:   imageUrl.value
     }

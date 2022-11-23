@@ -4,6 +4,7 @@
   max-width: 120px;
   max-height: 120px;
   cursor: pointer;
+  aspect-ratio: 50 / 50;
 }
 
 .profile__avatar-container::after {
