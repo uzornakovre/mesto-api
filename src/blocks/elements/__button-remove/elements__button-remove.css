@@ -1,4 +1,5 @@
 .elements__button-remove {
+  display: none;
   position: absolute;
   width: 18px;
   height: 19px;

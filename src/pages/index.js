@@ -4,6 +4,7 @@ import FormValidator from '../components/FormValidator.js';
 import Section from '../components/Section.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import PopupWithImage from '../components/PopupWithImage.js';
+import PopupWithConfirmation from '../components/PopupWithConfirmation';
 import UserInfo from '../components/UserInfo.js';
 import Api from '../components/Api';
 
@@ -14,10 +15,15 @@ import { popupEdit,
          buttonAdd,
          formEdit,
          formAdd,
+         formAvatar,
          profileName,
          profileJob,
+         profileAvatar,
+         profileAvatarContainer,
          nameInput,
-         jobInput
+         jobInput,
+         popupAvatar,
+         popupDeleteCard
         } from '../utils/constants.js';
 
 const api = new Api({
@@ -31,10 +37,15 @@ const api = new Api({
 const imageViewer = new PopupWithImage(popupImageViewer);
 const profileEditor = new PopupWithForm(popupEdit, formEdit, submitEditForm);
 const cardLoader = new PopupWithForm(popupPlace, formAdd, submitAddForm);
+const avatarEditor = new PopupWithForm(popupAvatar, formAvatar, submitAvatarForm);
+const cardRemover = new PopupWithConfirmation(popupDeleteCard);
 const userInfo = new UserInfo({
-  name: profileName,
-  about: profileJob
+  name:   profileName,
+  about:  profileJob,
+  avatar: profileAvatar
 });
+
+// Листенеры кнопок на странице
 
 buttonEdit.addEventListener('click', () => {
   profileEditor.open();
@@ -49,52 +60,132 @@ buttonAdd.addEventListener('click', () => {
   validatorAddCard.resetValidation();
 });
 
-// Данные пользователя
-
-api.getUserInfo().then((userData) => {
-  userInfo.setUserInfo(userData);
+profileAvatarContainer.addEventListener('click', () => {
+  avatarEditor.open();
+  validatorEditAvatar.resetValidation();
 });
 
-function submitEditForm(userData) {
-  api.changeUserInfo(userData).then((userData) => {
+// Данные пользователя
+
+api.getUserInfo()
+  .then((userData) => {
     userInfo.setUserInfo(userData);
+  })
+  .catch((error) => {
+    console.log(`Ошибка при получении данных о пользователе: ${error}`);
   });
+
+function submitEditForm(userData) {
+  api.changeUserInfo(userData)
+    .then((userData) => {
+      userInfo.setUserInfo(userData);
+    })
+    .catch((error) => {
+      console.log(`Ошибка при изменении данных о пользователе: ${error}`);
+    });
   profileEditor.close();
 }
 
-function submitAddForm(data) {
-  const cardData = [{
-    name: data.place,
-    link: data.url
-  }];
-  card.renderItems(cardData);
-  cardLoader.close();
+function submitAvatarForm(userData) {
+  api.changeUserAvatar(userData)
+    .then((userData) => {
+      userInfo.setUserInfo(userData);
+    })
+    .catch((error) => {
+      console.log(`Ошибка при изменении аватара: ${error}`);
+    });
+  avatarEditor.close()
 }
 
-function submitDeleteCard() {
-
-}
+// Листенеры модальных окон
 
 profileEditor.setEventListeners();
 cardLoader.setEventListeners();
 imageViewer.setEventListeners();
+avatarEditor.setEventListeners();
 
 // Карточки
 
-import { cardList, initialCards } from '../utils/constants.js'; 
+import { cardList } from '../utils/constants.js'; 
 
 const card = new Section({
-  renderer: (item) => {
-    const cardElement = new Card(item, '#cardTemplate', imageViewer).createCard();
-    card.addItem(cardElement);
+  renderer: (itemData) => {
+    const cardElement = new Card({
+      itemData,
+      // getUserInfo: () => {
+      //   api.getUserInfo()
+      //     .then((userData) => {
+      //       console.log(userData);
+      //       // return userData;
+      //     })
+      // },
+      handleDeleteClick: (id, handleConfirmDelete) => {
+        cardRemover.open();
+        cardRemover.setEventListeners(id, handleConfirmDelete);
+      },
+      handleConfirmDelete: (id) => {
+        api.deleteCard(id)
+          .then(() => {
+            cardElement.remove();
+          })
+          .catch((error) => {
+            console.log(`Ошибка при удалении карточки: ${error}`);
+          });
+      },
+      handleLikeClick: (id, owner) => {
+        if (cardElement.isLiked()) {
+        api.dislikeCard(id, owner)
+          .then((cardData) => {
+            cardElement.refreshLikes(cardData.likes);
+            cardElement.setLikeStatus(cardData.likes.length);
+          })
+          .catch((error) => {
+            console.log(`Ошибка при удалении лайка: ${error}`);
+          })
+        } else {
+          api.likeCard(id, owner)
+            .then((cardData) => {
+              cardElement.refreshLikes(cardData.likes);
+              cardElement.setLikeStatus(cardData.likes.length);
+            })
+            .catch((error) => {
+              console.log(`Ошибка при постановке лайка: ${error}`);
+            })
+        }
+      }
+    }, 
+      '#cardTemplate',
+      imageViewer,
+      );
+    card.addItem(cardElement.createCard());
   }
 }, cardList);
 
-api.getInitialCards().then((cardsData) => {
-  const initialCards = cardsData;
-  card.renderItems(initialCards);
-  console.log(cardsData)
-})
+api.getInitialCards()
+  .then((cardsData) => {
+    const initialCards = cardsData;
+    card.renderItems(initialCards.reverse());
+  })
+  .catch((error) => {
+    console.log(`Ошибка при загрузке карточек: ${error}`);
+  });
+
+// Добавление карточки
+
+function submitAddForm(data) {
+  const cardData = {
+    name: data.place,
+    link: data.url
+  };
+  api.createCard(cardData)
+    .then((cardData) => {
+      card.renderItems([cardData]);
+    })
+    .catch((error) => {
+      console.log(`Ошибка при создании новой карточки: ${error}`);
+    });
+  cardLoader.close();
+}
 
 // Валидация
 
@@ -102,6 +193,8 @@ import { settingsList } from '../utils/constants.js';
 
 const validatorEditProfile = new FormValidator(settingsList, popupEdit);
 const validatorAddCard = new FormValidator(settingsList, popupPlace);
+const validatorEditAvatar = new FormValidator(settingsList, popupAvatar);
 
 validatorEditProfile.enableValidation();
 validatorAddCard.enableValidation();
+validatorEditAvatar.enableValidation();

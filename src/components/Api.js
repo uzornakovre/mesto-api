@@ -1,9 +1,3 @@
-import { 
-  profileName,
-  profileJob,
-  profileAvatar
- } from "../utils/constants";
-
 export default class Api {
   constructor({ baseUrl, headers }) {
     this._url = baseUrl;
@@ -30,22 +24,62 @@ export default class Api {
     }).then(this._checkStatus)
   }
 
-  changeUserInfo(data) {
+  changeUserInfo(userData) {
     return fetch(`${this._url}/users/me`, {
       method: 'PATCH',
       headers: this._headers,
       body: JSON.stringify({
-        name: data.name,
-        about: data.about
+        name:  userData.name,
+        about: userData.about
+      })
+    }).then(this._checkStatus);
+  }
+
+  changeUserAvatar(userData) {
+    return fetch(`${this._url}/users/me/avatar`, {
+      method: 'PATCH',
+      headers: this._headers,
+      body: JSON.stringify({
+        avatar: userData.avatarUrl
+      })
+    }).then(this._checkStatus);
+  }
+
+  createCard(cardData) {
+    return fetch(`${this._url}/cards`, {
+      method: 'POST',
+      headers: this._headers,
+      body: JSON.stringify({
+        name: cardData.name,
+        link: cardData.link
       })
     }).then(this._checkStatus)
   }
 
-  createCard() {
-
+  deleteCard(id) {
+    return fetch(`${this._url}/cards/${id}`, {
+      method: 'DELETE',
+      headers: this._headers,
+    }).then(this._checkStatus)
   }
 
-  getLikesInfo() {
+  likeCard(id, owner) {
+    return fetch(`${this._url}/cards/${id}/likes`, {
+      method: 'PUT',
+      headers: this._headers,
+      body: JSON.stringify({
+        likes: [owner]
+      })
+    }).then(this._checkStatus)
+  }
 
+  dislikeCard(id, owner) {
+    return fetch(`${this._url}/cards/${id}/likes`, {
+      method: 'DELETE',
+      headers: this._headers,
+      body: JSON.stringify({
+        likes: [owner]
+      })
+    }).then(this._checkStatus)
   }
 }

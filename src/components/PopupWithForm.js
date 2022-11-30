@@ -3,7 +3,8 @@ import {
   nameInput,
   jobInput,
   placeName,
-  imageUrl, 
+  imageUrl,
+  avatarUrl 
  } from '../utils/constants.js';
 
 export default class PopupWithForm extends Popup {
@@ -20,10 +21,11 @@ export default class PopupWithForm extends Popup {
 
   _getInputValues() {
     return {
-      name:  nameInput.value,
-      about:   jobInput.value,
-      place: placeName.value,
-      url:   imageUrl.value
+      name:      nameInput.value,
+      about:     jobInput.value,
+      place:     placeName.value,
+      url:       imageUrl.value,
+      avatarUrl: avatarUrl.value
     }
   }
 
