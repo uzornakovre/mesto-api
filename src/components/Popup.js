@@ -26,6 +26,14 @@ export default class Popup {
         this.close();
       }
     });
-    this._popup.querySelector('.popup__close').addEventListener('click', this.close.bind(this))
+    this._popup.querySelector('.popup__close').addEventListener('click', this.close.bind(this));
+  }
+
+  renderLoading(isLoading, sumbitType) {
+    if (isLoading) {
+      this._popup.querySelector('.popup__form-submit').textContent = 'Сохранение...';
+    } else {
+      this._popup.querySelector('.popup__form-submit').textContent = sumbitType;
+    }
   }
 }

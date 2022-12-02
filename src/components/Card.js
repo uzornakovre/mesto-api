@@ -1,14 +1,12 @@
 export class Card {
   constructor({ 
       itemData,
-      // userInfo, 
       handleDeleteClick,
       handleConfirmDelete,
       handleLikeClick,
+      handleCardClick,
     }, 
-    templateSelector, imageViewer) {
-    this._templateSelector = templateSelector;
-    // this._userInfo = userInfo;
+    templateSelector) {
     this._name = itemData.name;
     this._link = itemData.link;
     this._likes = itemData.likes;
@@ -18,7 +16,9 @@ export class Card {
     this._handleDeleteClick = handleDeleteClick;
     this._handleConfirmDelete = handleConfirmDelete;
     this._handleLikeClick = handleLikeClick;
-    this._handleCardClick = imageViewer;
+    this._handleCardClick = handleCardClick;
+
+    this._templateSelector = templateSelector;
   }
 
   _getTemplate() {
@@ -107,7 +107,6 @@ export class Card {
   }
 
   _handleLikeButtonClick() {
-    // this._userInfo();
     this._handleLikeClick(this._id, this._owner);
   }
 }

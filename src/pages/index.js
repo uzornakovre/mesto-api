@@ -67,7 +67,9 @@ profileAvatarContainer.addEventListener('click', () => {
 
 // Данные пользователя
 
-api.getUserInfo()
+const getUserInfo = api.getUserInfo();
+
+getUserInfo
   .then((userData) => {
     userInfo.setUserInfo(userData);
   })
@@ -76,24 +78,32 @@ api.getUserInfo()
   });
 
 function submitEditForm(userData) {
+  profileEditor.renderLoading(true);
   api.changeUserInfo(userData)
     .then((userData) => {
       userInfo.setUserInfo(userData);
     })
     .catch((error) => {
       console.log(`Ошибка при изменении данных о пользователе: ${error}`);
-    });
+    })
+    .finally(() => {
+      profileEditor.renderLoading(false, 'Сохранить');
+    })
   profileEditor.close();
 }
 
 function submitAvatarForm(userData) {
+  avatarEditor.renderLoading(true);
   api.changeUserAvatar(userData)
     .then((userData) => {
       userInfo.setUserInfo(userData);
     })
     .catch((error) => {
       console.log(`Ошибка при изменении аватара: ${error}`);
-    });
+    })
+    .finally(() => {
+      avatarEditor.renderLoading(false, 'Сохранить');
+    })
   avatarEditor.close()
 }
 
@@ -112,13 +122,6 @@ const card = new Section({
   renderer: (itemData) => {
     const cardElement = new Card({
       itemData,
-      // getUserInfo: () => {
-      //   api.getUserInfo()
-      //     .then((userData) => {
-      //       console.log(userData);
-      //       // return userData;
-      //     })
-      // },
       handleDeleteClick: (id, handleConfirmDelete) => {
         cardRemover.open();
         cardRemover.setEventListeners(id, handleConfirmDelete);
@@ -130,7 +133,7 @@ const card = new Section({
           })
           .catch((error) => {
             console.log(`Ошибка при удалении карточки: ${error}`);
-          });
+          })
       },
       handleLikeClick: (id, owner) => {
         if (cardElement.isLiked()) {
@@ -152,10 +155,10 @@ const card = new Section({
               console.log(`Ошибка при постановке лайка: ${error}`);
             })
         }
-      }
+      },
+      handleCardClick: imageViewer,
     }, 
       '#cardTemplate',
-      imageViewer,
       );
     card.addItem(cardElement.createCard());
   }
@@ -173,6 +176,7 @@ api.getInitialCards()
 // Добавление карточки
 
 function submitAddForm(data) {
+  cardLoader.renderLoading(true);
   const cardData = {
     name: data.place,
     link: data.url
@@ -183,7 +187,10 @@ function submitAddForm(data) {
     })
     .catch((error) => {
       console.log(`Ошибка при создании новой карточки: ${error}`);
-    });
+    })
+    .finally(() => {
+      cardLoader.renderLoading(false, 'Создать');
+    })
   cardLoader.close();
 }
 
