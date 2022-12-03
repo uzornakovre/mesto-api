@@ -67,11 +67,12 @@ profileAvatarContainer.addEventListener('click', () => {
 
 // Данные пользователя
 
-const getUserInfo = api.getUserInfo();
+let userId = '';
 
-getUserInfo
+api.getUserInfo()
   .then((userData) => {
     userInfo.setUserInfo(userData);
+    userId = userData._id;
   })
   .catch((error) => {
     console.log(`Ошибка при получении данных о пользователе: ${error}`);
@@ -116,12 +117,13 @@ avatarEditor.setEventListeners();
 
 // Карточки
 
-import { cardList } from '../utils/constants.js'; 
+import { cardList } from '../utils/constants.js';
 
 const card = new Section({
   renderer: (itemData) => {
     const cardElement = new Card({
       itemData,
+      userId: userId,
       handleDeleteClick: (id, handleConfirmDelete) => {
         cardRemover.open();
         cardRemover.setEventListeners(id, handleConfirmDelete);

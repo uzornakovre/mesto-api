@@ -1,6 +1,7 @@
 export class Card {
   constructor({ 
       itemData,
+      userId,
       handleDeleteClick,
       handleConfirmDelete,
       handleLikeClick,
@@ -13,6 +14,7 @@ export class Card {
     this._id = itemData._id;
     this._owner = itemData.owner;
     this._ownerId = itemData.owner._id;
+    this._userId = userId;
     this._handleDeleteClick = handleDeleteClick;
     this._handleConfirmDelete = handleConfirmDelete;
     this._handleLikeClick = handleLikeClick;
@@ -67,7 +69,7 @@ export class Card {
   }
 
   _enableRemove() {
-    if (this._ownerId === 'fa6431a7396878c4e5166da2') {
+    if (this._ownerId === this._userId) {
       this._cardDeleteButton.classList.add('elements__button-remove_active');
     }
   }
@@ -92,7 +94,7 @@ export class Card {
   isLiked() {
     let result = 0;
     this._likes.forEach((item) => {
-      if (item._id === 'fa6431a7396878c4e5166da2') {
+      if (item._id === this._userId) {
         result += 1;
       } else {
       }
