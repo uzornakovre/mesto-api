@@ -15,9 +15,9 @@
         <img class="profile__avatar" src="#" alt="Аватар">
       </div>
       <div class="profile__info">
-        <h1 class="profile__name">Жак-Ив Кусто</h1>
+        <h1 class="profile__name"></h1>
         <button class="profile__button-edit" type="button"></button>
-        <p class="profile__job">Исследователь океана</p>
+        <p class="profile__job"></p>
       </div>
       <button class="profile__button-add" type="button"></button>
     </section>
@@ -48,9 +48,9 @@
       <button class="popup__close" id="close-edit" type="button"></button>
       <form class="popup__form" name="profile_edit" id="profile_edit" novalidate>
         <h2 class="popup__form-title">Редактировать профиль</h2>
-        <input type="text" class="popup__form-input popup__form-input_content_name" id="name" name="input_name" placeholder="Имя" value="Жак-Ив Кусто" minlength="2" maxlength="40" required>
+        <input type="text" class="popup__form-input popup__form-input_content_name" id="name" name="input_name" placeholder="Имя" minlength="2" maxlength="40" required>
         <span class="popup__form-input-error popup__form-input-error_content_name"></span>
-        <input type="text" class="popup__form-input popup__form-input_content_job" id="job" name="input_job" placeholder="Профессия" value="Исследователь океана" minlength="2" maxlength="200" required>
+        <input type="text" class="popup__form-input popup__form-input_content_job" id="job" name="input_job" placeholder="Профессия" minlength="2" maxlength="200" required>
         <span class="popup__form-input-error popup__form-input-error_content_job"></span>
         <button type="submit" class="popup__form-submit" name="save_profile">Сохранить</button>
       </form>
@@ -61,10 +61,10 @@
       <button class="popup__close" id="close-place" type="button"></button>
       <form class="popup__form" name="new_place" id="new_place" novalidate>
         <h2 class="popup__form-title">Новое место</h2>
-        <input type="text" class="popup__form-input popup__form-input_content_place-name" id="place-name" name="input_place-name" placeholder="Название" value="" minlength="2" maxlength="30" required>
-        <span class="popup__form-input-error popup__form-input-error_content_place-name"></span>
-        <input type="url" class="popup__form-input popup__form-input_content_image-url" id="image-url" name="image-url" placeholder="Ссылка на картинку" value="" required>
-        <span class="popup__form-input-error popup__form-input-error_content_image-url"></span>
+        <input type="text" class="popup__form-input popup__form-input_content_place" id="place" name="input_place-name" placeholder="Название" value="" minlength="2" maxlength="30" required>
+        <span class="popup__form-input-error popup__form-input-error_content_place"></span>
+        <input type="url" class="popup__form-input popup__form-input_content_url" id="url" name="image-url" placeholder="Ссылка на картинку" value="" required>
+        <span class="popup__form-input-error popup__form-input-error_content_url"></span>
         <button type="submit" class="popup__form-submit" name="create_new">Создать</button>
       </form>
     </div>
@@ -74,8 +74,8 @@
       <button class="popup__close" id="close-avatar" type="button"></button>
       <form class="popup__form" name="change-avatar" id="avatar_edit" novalidate>
         <h2 class="popup__form-title">Обновить аватар</h2>
-        <input type="url" class="popup__form-input popup__form-input_content_avatar" id="avatar-url" name="avatar-url" placeholder="Ссылка на аватар" value="" required>
-        <span class="popup__form-input-error popup__form-input-error_content_avatar-url"></span>
+        <input type="url" class="popup__form-input popup__form-input_content_avatar" id="avatar" name="avatar-url" placeholder="Ссылка на аватар" value="" required>
+        <span class="popup__form-input-error popup__form-input-error_content_avatar"></span>
         <button type="submit" class="popup__form-submit popup__form-submit_place_avatar" name="change_avatar">Сохранить</button>
       </form>
     </div>

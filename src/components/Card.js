@@ -33,7 +33,7 @@ export class Card {
     return cardElement;
   }
 
-  remove() {
+  removeCard() {
     this._element.remove();
   }
 

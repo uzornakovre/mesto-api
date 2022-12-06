@@ -29,11 +29,11 @@ export default class Popup {
     this._popup.querySelector('.popup__close').addEventListener('click', this.close.bind(this));
   }
 
-  renderLoading(isLoading, sumbitType) {
+  renderLoading(isLoading, submitType) {
     if (isLoading) {
       this._popup.querySelector('.popup__form-submit').textContent = 'Сохранение...';
     } else {
-      this._popup.querySelector('.popup__form-submit').textContent = sumbitType;
+      this._popup.querySelector('.popup__form-submit').textContent = submitType;
     }
   }
 }

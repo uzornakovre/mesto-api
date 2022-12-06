@@ -45,13 +45,13 @@ export default class FormValidator {
   }
 
   _showInputError(inputElement) {
-    this._errorElement = this._formElement.querySelector(`.popup__form-input-error_content_${inputElement.id}`);
+    this._errorElement = this._formElement.querySelector(`${this._settings.inputSelector}-error_content_${inputElement.id}`);
     this._errorElement.textContent = inputElement.validationMessage;
     inputElement.classList.add(this._settings.inputErrorClass);
   }
 
   _hideInputError(inputElement) {
-    this._errorElement = this._formElement.querySelector(`.popup__form-input-error_content_${inputElement.id}`);
+    this._errorElement = this._formElement.querySelector(`${this._settings.inputSelector}-error_content_${inputElement.id}`);
     this._errorElement.textContent = "";
     inputElement.classList.remove(this._settings.inputErrorClass);
   }

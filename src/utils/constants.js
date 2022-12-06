@@ -22,8 +22,8 @@ export const profileJob = document.querySelector('.profile__job');
 export const profileAvatarContainer = document.querySelector('.profile__avatar-container');
 export const profileAvatar = profileAvatarContainer.querySelector('.profile__avatar');
 
-export const placeName = popupPlace.querySelector('.popup__form-input_content_place-name');
-export const imageUrl = popupPlace.querySelector('.popup__form-input_content_image-url');
+export const placeName = popupPlace.querySelector('.popup__form-input_content_place');
+export const imageUrl = popupPlace.querySelector('.popup__form-input_content_url');
 
 export const avatarUrl = popupAvatar.querySelector('.popup__form-input_content_avatar');
 

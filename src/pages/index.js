@@ -73,6 +73,14 @@ api.getUserInfo()
   .then((userData) => {
     userInfo.setUserInfo(userData);
     userId = userData._id;
+    api.getInitialCards()
+    .then((cardsData) => {
+      const initialCards = cardsData;
+      cardSection.renderItems(initialCards.reverse());
+    })
+    .catch((error) => {
+      console.log(`Ошибка при загрузке карточек: ${error}`);
+    })
   })
   .catch((error) => {
     console.log(`Ошибка при получении данных о пользователе: ${error}`);
@@ -89,8 +97,8 @@ function submitEditForm(userData) {
     })
     .finally(() => {
       profileEditor.renderLoading(false, 'Сохранить');
+      profileEditor.close();
     })
-  profileEditor.close();
 }
 
 function submitAvatarForm(userData) {
@@ -104,8 +112,8 @@ function submitAvatarForm(userData) {
     })
     .finally(() => {
       avatarEditor.renderLoading(false, 'Сохранить');
+      avatarEditor.close()
     })
-  avatarEditor.close()
 }
 
 // Листенеры модальных окон
@@ -114,27 +122,32 @@ profileEditor.setEventListeners();
 cardLoader.setEventListeners();
 imageViewer.setEventListeners();
 avatarEditor.setEventListeners();
+cardRemover.setEventListeners();
 
 // Карточки
 
 import { cardList } from '../utils/constants.js';
 
-const card = new Section({
+const cardSection = new Section({
   renderer: (itemData) => {
     const cardElement = new Card({
       itemData,
       userId: userId,
       handleDeleteClick: (id, handleConfirmDelete) => {
-        cardRemover.open();
-        cardRemover.setEventListeners(id, handleConfirmDelete);
+        cardRemover.open(id, handleConfirmDelete);
       },
       handleConfirmDelete: (id) => {
+        cardRemover.renderLoading(true)
         api.deleteCard(id)
           .then(() => {
-            cardElement.remove();
+            cardElement.removeCard();
           })
           .catch((error) => {
             console.log(`Ошибка при удалении карточки: ${error}`);
+          })
+          .finally(() => {
+            cardRemover.renderLoading(false, 'Да');
+            cardRemover.close();
           })
       },
       handleLikeClick: (id, owner) => {
@@ -162,18 +175,9 @@ const card = new Section({
     }, 
       '#cardTemplate',
       );
-    card.addItem(cardElement.createCard());
+    cardSection.addItem(cardElement.createCard());
   }
 }, cardList);
-
-api.getInitialCards()
-  .then((cardsData) => {
-    const initialCards = cardsData;
-    card.renderItems(initialCards.reverse());
-  })
-  .catch((error) => {
-    console.log(`Ошибка при загрузке карточек: ${error}`);
-  });
 
 // Добавление карточки
 
@@ -185,15 +189,15 @@ function submitAddForm(data) {
   };
   api.createCard(cardData)
     .then((cardData) => {
-      card.renderItems([cardData]);
+      cardSection.renderItems([cardData]);
     })
     .catch((error) => {
       console.log(`Ошибка при создании новой карточки: ${error}`);
     })
     .finally(() => {
       cardLoader.renderLoading(false, 'Создать');
+      cardLoader.close();
     })
-  cardLoader.close();
 }
 
 // Валидация
