@@ -91,13 +91,13 @@ function submitEditForm(userData) {
   api.changeUserInfo(userData)
     .then((userData) => {
       userInfo.setUserInfo(userData);
+      profileEditor.close();
     })
     .catch((error) => {
       console.log(`Ошибка при изменении данных о пользователе: ${error}`);
     })
     .finally(() => {
       profileEditor.renderLoading(false, 'Сохранить');
-      profileEditor.close();
     })
 }
 
@@ -106,13 +106,13 @@ function submitAvatarForm(userData) {
   api.changeUserAvatar(userData)
     .then((userData) => {
       userInfo.setUserInfo(userData);
+      avatarEditor.close()
     })
     .catch((error) => {
       console.log(`Ошибка при изменении аватара: ${error}`);
     })
     .finally(() => {
       avatarEditor.renderLoading(false, 'Сохранить');
-      avatarEditor.close()
     })
 }
 
@@ -130,54 +130,58 @@ import { cardList } from '../utils/constants.js';
 
 const cardSection = new Section({
   renderer: (itemData) => {
-    const cardElement = new Card({
-      itemData,
-      userId: userId,
-      handleDeleteClick: (id, handleConfirmDelete) => {
-        cardRemover.open(id, handleConfirmDelete);
-      },
-      handleConfirmDelete: (id) => {
-        cardRemover.renderLoading(true)
-        api.deleteCard(id)
-          .then(() => {
-            cardElement.removeCard();
-          })
-          .catch((error) => {
-            console.log(`Ошибка при удалении карточки: ${error}`);
-          })
-          .finally(() => {
-            cardRemover.renderLoading(false, 'Да');
-            cardRemover.close();
-          })
-      },
-      handleLikeClick: (id, owner) => {
-        if (cardElement.isLiked()) {
-        api.dislikeCard(id, owner)
+    createCard(itemData);
+  }
+}, cardList);
+
+function createCard(itemData) {
+  const cardElement = new Card({
+    itemData,
+    userId: userId,
+    handleDeleteClick: (id, handleConfirmDelete) => {
+      cardRemover.open(id, handleConfirmDelete);
+    },
+    handleConfirmDelete: (id) => {
+      cardRemover.renderLoading(true)
+      api.deleteCard(id)
+        .then(() => {
+          cardElement.removeCard();
+          cardRemover.close();
+        })
+        .catch((error) => {
+          console.log(`Ошибка при удалении карточки: ${error}`);
+        })
+        .finally(() => {
+          cardRemover.renderLoading(false, 'Да');
+        })
+    },
+    handleLikeClick: (id, owner) => {
+      if (cardElement.isLiked()) {
+      api.dislikeCard(id, owner)
+        .then((cardData) => {
+          cardElement.refreshLikes(cardData.likes);
+          cardElement.setLikeStatus(cardData.likes.length);
+        })
+        .catch((error) => {
+          console.log(`Ошибка при удалении лайка: ${error}`);
+        })
+      } else {
+        api.likeCard(id, owner)
           .then((cardData) => {
             cardElement.refreshLikes(cardData.likes);
             cardElement.setLikeStatus(cardData.likes.length);
           })
           .catch((error) => {
-            console.log(`Ошибка при удалении лайка: ${error}`);
+            console.log(`Ошибка при постановке лайка: ${error}`);
           })
-        } else {
-          api.likeCard(id, owner)
-            .then((cardData) => {
-              cardElement.refreshLikes(cardData.likes);
-              cardElement.setLikeStatus(cardData.likes.length);
-            })
-            .catch((error) => {
-              console.log(`Ошибка при постановке лайка: ${error}`);
-            })
-        }
-      },
-      handleCardClick: imageViewer,
-    }, 
-      '#cardTemplate',
-      );
-    cardSection.addItem(cardElement.createCard());
-  }
-}, cardList);
+      }
+    },
+    handleCardClick: imageViewer,
+  }, 
+    '#cardTemplate',
+    );
+  cardSection.addItem(cardElement.createCard()); 
+}
 
 // Добавление карточки
 
@@ -189,14 +193,14 @@ function submitAddForm(data) {
   };
   api.createCard(cardData)
     .then((cardData) => {
-      cardSection.renderItems([cardData]);
+      createCard(cardData);
+      cardLoader.close();
     })
     .catch((error) => {
       console.log(`Ошибка при создании новой карточки: ${error}`);
     })
     .finally(() => {
       cardLoader.renderLoading(false, 'Создать');
-      cardLoader.close();
     })
 }
 

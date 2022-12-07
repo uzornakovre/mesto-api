@@ -1,6 +1,6 @@
 export default class Popup {
-  constructor(popupSelector) {
-    this._popup = popupSelector;
+  constructor(popup) {
+    this._popup = popup;
     this._handleEscClose = this._handleEscClose.bind(this);
   }
 
@@ -27,13 +27,5 @@ export default class Popup {
       }
     });
     this._popup.querySelector('.popup__close').addEventListener('click', this.close.bind(this));
-  }
-
-  renderLoading(isLoading, submitType) {
-    if (isLoading) {
-      this._popup.querySelector('.popup__form-submit').textContent = 'Сохранение...';
-    } else {
-      this._popup.querySelector('.popup__form-submit').textContent = submitType;
-    }
   }
 }
