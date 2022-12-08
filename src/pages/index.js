@@ -76,7 +76,7 @@ api.getUserInfo()
     api.getInitialCards()
     .then((cardsData) => {
       const initialCards = cardsData;
-      cardSection.renderItems(initialCards.reverse());
+      cardSection.renderItems(initialCards);
     })
     .catch((error) => {
       console.log(`Ошибка при загрузке карточек: ${error}`);
@@ -130,7 +130,7 @@ import { cardList } from '../utils/constants.js';
 
 const cardSection = new Section({
   renderer: (itemData) => {
-    createCard(itemData);
+    return createCard(itemData);
   }
 }, cardList);
 
@@ -180,7 +180,9 @@ function createCard(itemData) {
   }, 
     '#cardTemplate',
     );
-  cardSection.addItem(cardElement.createCard()); 
+
+  const card = cardElement.createCard()
+  return card; 
 }
 
 // Добавление карточки
@@ -193,7 +195,8 @@ function submitAddForm(data) {
   };
   api.createCard(cardData)
     .then((cardData) => {
-      createCard(cardData);
+      const cardElement = createCard(cardData);
+      cardSection.addItem(cardElement);
       cardLoader.close();
     })
     .catch((error) => {
