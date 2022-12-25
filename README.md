@@ -21,9 +21,9 @@ Mesto - это сервис, который позволяет пользова�
 :bulb: Следующая версия проекта будет переписана с помощью библиотеки React.js
 ______
 
-[:link: Просмотреть страницу в GitHub Pages](https://uzornakovre.github.io/mesto/)  
+[:link: Просмотреть страницу в GitHub Pages](https://uzornakovre.github.io/mesto-api/)  
 [:link: Открыть макет в Figma](https://www.figma.com/file/2cn9N9jSkmxD84oJik7xL7/JavaScript.-Sprint-4?node-id=0%3A1)
 ------
-![GitHub repo size](https://img.shields.io/github/repo-size/uzornakovre/mesto?color=yellow&style=flat-square) ![GitHub last commit](https://img.shields.io/github/last-commit/uzornakovre/mesto?color=blue&style=flat-square) ![GitHub Repo stars](https://img.shields.io/github/stars/uzornakovre/mesto?color=pink&style=flat-square)  
+![GitHub repo size](https://img.shields.io/github/repo-size/uzornakovre/mesto-api?color=yellow&style=flat-square) ![GitHub last commit](https://img.shields.io/github/last-commit/uzornakovre/mesto-api?color=blue&style=flat-square) ![GitHub Repo stars](https://img.shields.io/github/stars/uzornakovre/mesto-api?color=pink&style=flat-square)  
 
-[![Скриншот страницы](https://i.ibb.co/ZBQ5VF4/2022-08-31-15-03-41.png)](https://uzornakovre.github.io/mesto/)
+[![Скриншот страницы](https://i.ibb.co/ZBQ5VF4/2022-08-31-15-03-41.png)](https://uzornakovre.github.io/mesto-api/)
